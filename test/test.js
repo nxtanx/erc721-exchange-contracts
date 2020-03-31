@@ -7,19 +7,22 @@ const {
   expectRevert, // Assertions for transactions that should fail
 } = require('@openzeppelin/test-helpers');
 
-const token = contract.fromArtifact('CharityToken');
-const Donate = contract.fromArtifact('Donate');
+const FactoryContract = contract.fromArtifact('FactoryContract');
+const Exchange = contract.fromArtifact('Exchange');
 
-let charityToken, donate, value = ''
+let factoryContract, exchangeContract;
 
 const sender =  accounts[0];
-const receiver =  accounts[1];
+
+const company1 =  accounts[1];
+const company2 =  accounts[2];
+const company3 =  accounts[3];
 
 beforeEach(async function () {
 
-    token = await token.new({ from: sender });
-    token = token.address;
-    await charityToken.initialize({from : sender}) ;
+    factoryContract = await FactoryContract.new({ from: sender });
+    factoryContractAddress = factoryContract.address;
+    await factoryContract({from : sender}) ;
 
 });
 

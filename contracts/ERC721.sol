@@ -9,7 +9,7 @@ interface IERC721 {
     function transferFrom(address _from, address _to, uint256 _tokenId) external;
     function approve(address _approved, uint256 _tokenId) external ;
     function transfer(address _to, uint256 _tokenId) external;
-    function mint(address _to, uint256 _tokenId) external ;
+    function mint(uint256 quantity) external ;
     function totalSupply() external view returns(uint);
 }
 
