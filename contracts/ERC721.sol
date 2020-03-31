@@ -118,10 +118,6 @@ contract ERC721 is IERC721,Ownable  {
         return ownedTokensCount[_owner];
     }
     
-    function totalSupply() external view override returns(uint){
-        return 123;
-    }
-    
     function transfer(address _to, uint256 _tokenId) canTransfer(_tokenId) external override {
         require(_to != address(0) );
         removeTokenFrom(msg.sender, _tokenId);

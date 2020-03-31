@@ -22,34 +22,42 @@ const company3 =  accounts[3];
 let name = 'Company ABC Token';
 let symbol = 'ABCTK';
 let owner = company1;
-let deployedToken,tokenInstance,tokenOwnerAddress = '';
+let deployedFactoryInstance, deployedTokenInstance, deployedExchangeInstance, tokenOwnerAddress = '';
 
 beforeEach(async function () {
 
+  exchangeContract = await Exchange.new({from : factoryOwner});
+
   factoryContract = await FactoryContract.new({ from: factoryOwner });
-  deployedToken = await factoryContract.create(name , symbol , owner ,{from : owner});
+  deployedFactoryInstance = await factoryContract.create(name , symbol , owner ,{from : owner});
+
   tokenOwnerAddress = await factoryContract.getContract(0)
-  tokenInstance = await ERC721Contract.at(tokenOwnerAddress);
+  deployedTokenInstance = await ERC721Contract.at(tokenOwnerAddress);
 
 });
 
 describe("[Testcase 1 : check if the token deployed has been created as set in the variables]", async () => {
   it('Token Name is ' + name, async function () {
-    let testName = await tokenInstance.getName();
+    let testName = await deployedTokenInstance.getName();
     expect(testName).to.equal(name);
   });
   it('Token Name Symbol is' + symbol, async function () {
-    let testSymbol = await tokenInstance.getSymbol();
+    let testSymbol = await deployedTokenInstance.getSymbol();
     expect(testSymbol).to.equal(symbol);
   });
   it('Token owner is ' + tokenOwnerAddress, async function () {
-    let testOwner = await tokenInstance.owner();
+    let testOwner = await deployedTokenInstance.owner();
     expect(testOwner).to.equal(owner);
   });
 });
   
 describe("[Testcase 2 : check if the amount of the token supply has been transffered to the token owner]", async () => {
-    
+  // const totalSupply = await myContract.totalSupply();
+  // let totalSupplyNumber = new BN(totalSupply).toString();
+  // const ownerBalance = await myContract.balanceOf(owner);
+  // let ownerBalanceNumber = new BN(ownerBalance).toString();
+
+  // expect (ownerBalanceNumber).to.equal(totalSupplyNumber);
 });
   
 // describe("[Testcase 3: check if the features implemented work as intended]", async () => {
