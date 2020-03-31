@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx oz compile && mocha --timeout=5000"
+    "test": "npx oz compile --solc-version 0.6.0 && mocha --timeout=5000"
   },
   "author": "",
   "license": "ISC",

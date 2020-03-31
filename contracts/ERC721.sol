@@ -99,7 +99,7 @@ contract ERC721 is IERC721,Ownable  {
         _;
     }
     
-    constructor(string memory _name, string memory _symbol, address _address) public {
+    function initialize(string memory _name, string memory _symbol, address _address) public {
         name = _name;
         symbol = _symbol;
         owner = _address;
