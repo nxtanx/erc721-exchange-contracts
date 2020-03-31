@@ -10,7 +10,6 @@ interface IERC721 {
     function approve(address _approved, uint256 _tokenId) external ;
     function transfer(address _to, uint256 _tokenId) external;
     function mint(uint256 quantity) external ;
-    function totalSupply() external view returns(uint);
 }
 
 library SafeMath {
@@ -162,9 +161,9 @@ contract ERC721 is IERC721,Ownable  {
     
     function mint(uint256 quantity) public onlyOwner override {
         require(quantity > 0);
-	for (uint256 i=0; i < quantity; i++) {
+	      for (uint256 i=0; i < quantity; i++) {
             addTokenTo(msg.sender, tokenId);
-	    tokenId++;   
+	          tokenId++;   
         }
     }
     

@@ -16,15 +16,17 @@ let factoryContract, exchangeContract;
 const factoryOwner =  accounts[0];
 
 const company1 =  accounts[1];
-const company2 =  accounts[2];
-const company3 =  accounts[3];
+const acc1 =  accounts[2];
+const acc2 =  accounts[3];
 
 let name = 'Company ABC Token';
 let symbol = 'ABCTK';
 let owner = company1;
 let deployedFactoryInstance, deployedTokenInstance, deployedExchangeInstance, tokenOwnerAddress = '';
 
-beforeEach(async function () {
+let amount =0;
+
+before(async function () {
 
   exchangeContract = await Exchange.new({from : factoryOwner});
 
@@ -36,7 +38,7 @@ beforeEach(async function () {
 
 });
 
-describe("[Testcase 1 : check if the token deployed has been created as set in the variables]", async () => {
+describe("[Testcase 1 : check if the token deployed has been created and working as expected.]", async () => {
   it('Token Name is ' + name, async function () {
     let testName = await deployedTokenInstance.getName();
     expect(testName).to.equal(name);
@@ -49,19 +51,19 @@ describe("[Testcase 1 : check if the token deployed has been created as set in t
     let testOwner = await deployedTokenInstance.owner();
     expect(testOwner).to.equal(owner);
   });
-});
-  
-describe("[Testcase 2 : check if the amount of the token supply has been transffered to the token owner]", async () => {
-  // const totalSupply = await myContract.totalSupply();
-  // let totalSupplyNumber = new BN(totalSupply).toString();
-  // const ownerBalance = await myContract.balanceOf(owner);
-  // let ownerBalanceNumber = new BN(ownerBalance).toString();
 
-  // expect (ownerBalanceNumber).to.equal(totalSupplyNumber);
-});
-  
-// describe("[Testcase 3: check if the features implemented work as intended]", async () => {
+  it('Token Minted from TokenOwner is same as created' + tokenOwnerAddress, async function () {
+    await deployedTokenInstance.mint(5, {from : owner});
+    amount = await deployedTokenInstance.balanceOf(owner);
+    amount = new BN(amount).toString();
+    expect(amount).to.equal('5');
+  });
 
-    
-  
-// });
+  it('Succesful Token transfer to address' + tokenOwnerAddress, async function () {
+    await deployedTokenInstance.transfer(acc1, 4, {from : owner});
+    let acc1Amount = await deployedTokenInstance.balanceOf(acc1);
+    acc1Amount = new BN(acc1Amount).toString();
+    expect(acc1Amount).to.equal('1');
+  });
+
+});
